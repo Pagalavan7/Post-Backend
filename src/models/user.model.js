@@ -16,9 +16,7 @@ export const save = async function (name, email, password) {
       .input("name", name)
       .input("email", email)
       .input("password", password)
-      .query("insert into [Auth.users] values(@name,@email,@password)");
-
-    console.log(result);
+      .query("insert into Users values(@name,@email,@password)");
   } catch (err) {
     console.log(err);
     throw err;
@@ -31,9 +29,9 @@ export const findByEmail = async function (email) {
     const request = new sql.Request();
     const result = await request
       .input("email", email)
-      .query("select * from  [Auth.users] where email = @email");
+      .query("select * from Users where email = @email");
     console.log("result of findbyemail", result);
-    return result.recordset[0] ? true : false;
+    return result.recordset[0];
   } catch (err) {
     console.log(err);
     throw err;
