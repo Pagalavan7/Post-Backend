@@ -29,7 +29,9 @@ export const login = async (req, res) => {
     const token = await authService.login(email, password);
     res.status(200).json({ message: "User login successful", token: token });
   } catch (err) {
-    console.log(err);
-    res.status(400).send({ message: "Error while logging in", error: err });
+    console.log(err.message || err);
+    res
+      .status(400)
+      .send({ message: "Error while logging in", error: err.message || err });
   }
 };

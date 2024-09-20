@@ -34,7 +34,7 @@ export const login = async (email, password) => {
       throw new Error("User not found! Sign up.");
     }
   } catch (err) {
-    console.log(err);
+    console.log(err.message || err);
     throw err;
   }
 };
