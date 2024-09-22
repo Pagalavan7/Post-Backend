@@ -20,21 +20,20 @@ export const singup = async (name, email, password) => {
 export const login = async (email, password) => {
   try {
     const user = await userModel.findByEmail(email);
-    console.log("user from findbyemail", user);
-    if (user && (await bcryptUtil.comparePassword(password, user.password))) {
-      console.log("entered to create jwt..");
-      const payload = {
-        userName: user.userName,
+    console.log(user);
+    if (!user) {
+      throw new Error("User not found. Register your credentials!");
+    } else if (!(await bcryptUtil.comparePassword(password, user.password))) {
+      throw new Error("Incorrect Password! Try again with correct password");
+    } else {
+      const token = jwtUtil.generateToken({
+        name: user.name,
         email: user.email,
         role: user.role,
-      };
-      const token = await jwtUtil.generateToken(payload);
+      });
       return token;
-    } else {
-      throw new Error("User not found! Sign up.");
     }
   } catch (err) {
-    console.log(err.message || err);
     throw err;
   }
 };
