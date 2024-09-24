@@ -20,16 +20,15 @@ export const singup = async (name, email, password) => {
 export const login = async (email, password) => {
   try {
     const user = await userModel.findByEmail(email);
-    console.log(user);
+
     if (!user) {
       throw new Error("User not found. Register your credentials!");
     } else if (!(await bcryptUtil.comparePassword(password, user.password))) {
       throw new Error("Incorrect Password! Try again with correct password");
     } else {
       const token = jwtUtil.generateToken({
-        name: user.name,
+        userName: user.userName,
         email: user.email,
-        role: user.role,
       });
       return token;
     }
