@@ -10,7 +10,6 @@ export class User {
 
 export const save = async function (name, email, password) {
   try {
-    console.log("Entering user model");
     const request = new sql.Request();
     const result = await request
       .input("name", name)
@@ -25,12 +24,11 @@ export const save = async function (name, email, password) {
 
 export const findByEmail = async function (email) {
   try {
-    console.log("Entering into findbyemail");
     const request = new sql.Request();
     const result = await request
       .input("email", email)
       .query("select * from Users where email = @email");
-    console.log("result of findbyemail", result);
+
     return result.recordset[0];
   } catch (err) {
     console.log(err);

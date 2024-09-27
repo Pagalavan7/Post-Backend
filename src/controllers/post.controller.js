@@ -3,7 +3,6 @@ import * as postModel from "../models/posts.model.js";
 export const getAllPosts = async (req, res) => {
   try {
     const result = await postModel.getAllPosts();
-    console.log(result);
     res.status(200).send(result);
   } catch (err) {
     console.log(err.message || err);
@@ -15,16 +14,31 @@ export const getAllPosts = async (req, res) => {
 };
 
 export const savePost = async (req, res) => {
-  const { title, username, body, createdOn } = req.body;
+  const { title, userName, body, createdOn } = req.body;
 
   try {
-    await postModel.savePost(title, username, body, createdOn);
+    await postModel.savePost(title, userName, body, createdOn);
     res.status(201).send({ message: "Post saved successfully" });
   } catch (err) {
     console.log(err.message || err);
     res
       .status(401)
       .send({ message: "Error while saving  post", error: err.message || err });
+  }
+};
+
+export const editPost = async (req, res) => {
+  const { id } = req.params;
+  const { title, body } = req.body;
+  try {
+    await postModel.editPost(id, title, body);
+    res.status(201).send({ message: "Post modified successfully" });
+  } catch (err) {
+    console.log(err.message || err);
+    res.status(401).send({
+      message: "Error while modifying post",
+      error: err.message || err,
+    });
   }
 };
 
