@@ -43,9 +43,16 @@ export const savePost = async (req, res) => {
 
 export const editPost = async (req, res) => {
   const { id } = req.params;
-  const { title, body } = req.body;
+  const { title, body, modifiedOn } = req.body;
+  console.log(
+    "Value received from fronted for edit post",
+    title,
+    id,
+    body,
+    modifiedOn
+  );
   try {
-    await postModel.editPost(id, title, body);
+    await postModel.editPost(id, title, body, modifiedOn);
     res.status(201).send({ message: "Post modified successfully" });
   } catch (err) {
     console.log(err.message || err);

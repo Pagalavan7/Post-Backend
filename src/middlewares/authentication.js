@@ -6,9 +6,10 @@ export const authenticateToken = async (req, res, next) => {
   try {
     if (authHeader && authHeader.startsWith("Bearer ")) {
       const token = authHeader.split(" ")[1];
-      const user = await jwt.verify(token, process.env.JWT_SECRET);
-      console.log("decoded user is", user);
+      const user = jwt.verify(token, process.env.JWT_SECRET);
+
       req.body.userName = user.userName;
+      console.log("Auth success, going to next route");
       next();
     } else {
       res

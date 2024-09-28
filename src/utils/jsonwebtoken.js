@@ -7,7 +7,6 @@ export const generateToken = (payload) => {
   const token = jwt.sign(payload, secretKey, {
     expiresIn: "1h",
   });
-  console.log(token);
   return token;
 };
 
@@ -16,7 +15,6 @@ export const verifyToken = (token) => {
     const decoded = jwt.verify(token, secretKey);
     return decoded;
   } catch (err) {
-    console.log("Token verification failed:", err);
-    return err;
+    return err.message || err;
   }
 };

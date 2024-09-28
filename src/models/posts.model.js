@@ -33,22 +33,28 @@ export const savePost = async (title, username, body, createdOn) => {
       .input("body", body)
       .input("username", username)
       .input("createdOn", createdOn)
-      .query(`insert into posts values(@title,@body,@username,@createdOn)`);
+      .query(
+        `insert into posts (title,body,userName,createdOn) values(@title,@body,@username,@createdOn)`
+      );
   } catch (err) {
     console.log(err.message || err);
     throw err.message || err;
   }
 };
 
-export const editPost = async (id, title, content) => {
+export const editPost = async (id, title, body, modifiedOn) => {
+  console.log("inside post model to edit");
   try {
-    console.log("model of edit post ");
     const request = new sql.Request();
     const result = await request
       .input("id", id)
       .input("title", title)
-      .input("body", content)
-      .query("update posts set title = @title, [body] = @body where id=@id");
+      .input("body", body)
+      .input("modifiedOn", modifiedOn)
+      .query(
+        "update posts set title = @title, body = @body ,modifiedOn = @modifiedOn where id=@id"
+      );
+    console.log("inside post model to edit 2");
     const status = result.rowsAffected[0] ? true : false;
     if (!status)
       throw new Error("No post with such id found. Cannot update post!");
