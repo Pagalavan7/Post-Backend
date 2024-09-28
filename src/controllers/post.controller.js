@@ -13,6 +13,20 @@ export const getAllPosts = async (req, res) => {
   }
 };
 
+export const getPostById = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const result = await postModel.getPostById(id);
+    res.status(200).send(result);
+  } catch (err) {
+    console.log(err.message || err);
+    res.status(401).send({
+      message: "Error while fetching a post",
+      error: err.message || err,
+    });
+  }
+};
+
 export const savePost = async (req, res) => {
   const { title, userName, body, createdOn } = req.body;
 

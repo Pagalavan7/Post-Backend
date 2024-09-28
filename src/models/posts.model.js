@@ -11,6 +11,20 @@ export const getAllPosts = async () => {
   }
 };
 
+export const getPostById = async (id) => {
+  try {
+    const request = new sql.Request();
+    const result = await request
+      .input("id", id)
+      .query(`select * from posts where id = @id`);
+    if (result.recordset[0]) return result.recordset[0];
+    else throw new Error("Id not found!");
+  } catch (err) {
+    console.log(err.message || err);
+    throw err.message || err;
+  }
+};
+
 export const savePost = async (title, username, body, createdOn) => {
   try {
     const request = new sql.Request();

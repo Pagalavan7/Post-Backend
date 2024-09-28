@@ -5,6 +5,7 @@ import * as postController from "../controllers/post.controller.js";
 const router = Router();
 
 router.get("/get-all-posts", postController.getAllPosts);
+router.get("/get-post/:id", postController.getPostById);
 router.post("/save-post", postController.savePost);
 router.patch("/edit-post/:id", postController.editPost);
 router.delete("/delete-post/:id", postController.deletePost);
