@@ -31,12 +31,12 @@ export const getPostById = async (req, res) => {
 export const savePost = async (req, res) => {
   console.log("coming to posts save post controller", req.body);
 
-  const { userName, title, body } = req.body;
+  const { userName, title, body, createdOn } = req.body;
 
-  console.log("coming from frontend", title, userName, body);
+  console.log("coming from frontend", title, userName, body, createdOn);
 
   try {
-    await postModel.savePost(title, userName, body);
+    await postModel.savePost(title, userName, body, createdOn);
     res.status(201).send({ message: "Post saved successfully" });
   } catch (err) {
     res

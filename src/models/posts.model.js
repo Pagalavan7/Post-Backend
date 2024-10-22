@@ -29,12 +29,12 @@ export const getPostById = async (id) => {
   }
 };
 
-export const savePost = async (title, username, body) => {
+export const savePost = async (title, username, body, createdOn) => {
   console.log("save one post model", title, username, body);
   try {
     await pool.query(
-      `INSERT INTO "posts" ("title", "body", "userName") VALUES ($1, $2, $3)`,
-      [title, body, username] // Use an array to pass parameters
+      `INSERT INTO "posts" ("title", "body", "userName","createdOn","modifiedOn") VALUES ($1, $2, $3, $4, $5)`,
+      [title, body, username, createdOn, createdOn] // Use an array to pass parameters
     );
   } catch (err) {
     console.log(err);
@@ -43,13 +43,14 @@ export const savePost = async (title, username, body) => {
 };
 
 export const editPost = async (id, title, body, modifiedOn) => {
-  console.log("edit  posts model");
+  console.log("edit posts model");
 
   try {
     const result = await pool.query(
-      `UPDATE posts SET title = $1, body = $2, modifiedOn = $3 WHERE id = $4`,
-      [title, body, modifiedOn, id] // Use an array to pass parameters
+      `UPDATE "posts" SET "title" = $1, "body" = $2 WHERE "id" = $3`,
+      [title, body, id]
     );
+
     console.log(result);
     const status = result.rowCount ? true : false; // Check if any rows were affected
     console.log(status);
@@ -57,6 +58,7 @@ export const editPost = async (id, title, body, modifiedOn) => {
     if (!status)
       throw new Error("No post with such id found. Cannot update post!");
   } catch (err) {
+    console.log(err);
     throw err.message || err;
   }
 };
